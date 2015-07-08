@@ -49,7 +49,7 @@ Mouse.prototype.createMouse = function(){
 };
 
 function game(){
-    var canvas = document.getElementById('fff'),
+    var canvas = document.getElementById('canvas'),
         ctx = canvas.getContext('2d'),
         snakeArray = [new SnakeFragment(20,40),
         new SnakeFragment(40,40),
