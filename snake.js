@@ -62,66 +62,73 @@ function game(){
          snake = new Snake(snakeArray,'right'),
          mouse = new Mouse(100,300);
 
-    document.addEventListener('keydown',function(event){
-            if(snake.direction !== 'right' && event.keyCode == 37){
-                snake.direction = 'left';
-            }else if( snake.direction !== 'down' && event.keyCode == 38 ){
-                snake.direction = 'up';
-            }else if(snake.direction !== 'left'&& event.keyCode == 39 ){
-                snake.direction = 'right';
-            }else if(snake.direction !== 'up' && event.keyCode == 40){
-                snake.direction = 'down';
+     document.addEventListener('keydown',function(event){
+            if(!flag) {
+                if (snake.direction !== 'right' && event.keyCode == 37) {
+                    snake.direction = 'left';
+                } else if (snake.direction !== 'down' && event.keyCode == 38) {
+                    snake.direction = 'up';
+                } else if (snake.direction !== 'left' && event.keyCode == 39) {
+                    snake.direction = 'right';
+                } else if (snake.direction !== 'up' && event.keyCode == 40) {
+                    snake.direction = 'down';
+                }
+                flag = 1;
             }
+        setTimeout(function(){
+            flag = 0;
+        },60)
+
     },false);
 
     function snakeMove(mouse){
 
-     var timer = setInterval(function(){
-            ctx.fillStyle = 'black';
-            ctx.fillRect(0,0,canvas.width,canvas.height);
-            var snakeArr = snake.snake;
-            for(var i = 0; i < snakeArr.length-1; i++){
-                snakeArr[i].x = snakeArr[i+1].x;
-                snakeArr[i].y = snakeArr[i+1].y;
-                snakeArr[i].createFragment(ctx);
-            }
-         var head = snakeArr[snakeArr.length - 1];
+             ctx.fillStyle = 'black';
+             ctx.fillRect(0, 0, canvas.width, canvas.height);
+             var snakeArr = snake.snake;
+             var tail = snakeArr.shift();
+            tail.x = snakeArr[snakeArr.length - 1].x;
+            tail.y = snakeArr[snakeArr.length - 1].y;
 
-            if(snake.direction == 'right'){
-                if(head.x > canvas.width-30){
-                    head.x = 0;
-                }else{
-                    head.x+=20;
-                }
-            }else if(snake.direction == 'down'){
-                if(head.y > canvas.height-30){
-                    head.y = 0;
-                }else{
-                    head.y+=20;
-                }
-            }else  if(snake.direction == 'left') {
-                if (head.x < 10) {
-                    head.x = canvas.width - 20;
-                } else {
-                    head.x -= 20;
-                }
-            }else if(snake.direction == 'up') {
-                if (head.y < 10) {
-                    head.y = canvas.height - 20;
-                } else {
-                    head.y -= 20;
-                }
-            }
-            head.createFragment(ctx);
-            if(snake.isGameOver()){
-                alert("game over");
-                clearInterval(timer);
-            }
+             if (snake.direction === 'right') {
+                 if (tail.x > canvas.width - 30) {
+                     tail.x = 0;
+                 } else {
+                     tail.x += 20;
+                 }
+             } else if (snake.direction === 'down') {
+                 if (tail.y > canvas.height - 30) {
+                     tail.y = 0;
+                 } else {
+                     tail.y += 20;
+                 }
+             } else if (snake.direction === 'left') {
+                 if (tail.x < 10) {
+                     tail.x = canvas.width - 20;
+                 } else {
+                     tail.x -= 20;
+                 }
+             } else if (snake.direction === 'up') {
+                 if (tail.y < 10) {
+                     tail.y = canvas.height - 20;
+                 } else {
+                     tail.y -= 20;
+                 }
+             }
+             snakeArr.push(tail);
+             snakeArr.forEach(function(frag){frag.createFragment(ctx)});
 
-            ctx.fillStyle = 'red';
-            ctx.fillRect(mouse.x,mouse.y,20,20);
+             if (snake.isGameOver()) {
+                 alert("game over");
+                 clearInterval(timer);
+             }
 
-        },60);
+             ctx.fillStyle = 'red';
+             ctx.fillRect(mouse.x, mouse.y, 20, 20);
+
+        setTimeout(function(){
+            snakeMove(mouse);
+        },60)
     }
     snakeMove(mouse);
     snake.eatMouse(ctx,mouse);
