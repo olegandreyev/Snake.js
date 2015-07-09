@@ -20,8 +20,8 @@ function Snake(snake,direction){
 Snake.prototype.eatMouse = function(ctx,mouse){
     var self = this;
     setInterval(function(){
-        var head = self.snake[self.snake.length - 1];
-        if(mouse.x == head.x && mouse.y == head.y){
+        var head = self.snake[self.snake.length - 1].valueOf();
+        if(head === mouse.valueOf()){
             self.snake.push(new SnakeFragment(mouse.x,mouse.y));
             var points = document.getElementById('points').innerHTML;
             document.getElementById('points').innerHTML = ++points;
@@ -33,7 +33,7 @@ Snake.prototype.eatMouse = function(ctx,mouse){
 Snake.prototype.isGameOver = function(){
     var head = this.snake[this.snake.length-1].valueOf();
     return this.snake.some(function (x,i,arr) {
-        return head == x && i!=arr.length-1;
+        return head == x && i!= arr.length-1;
     });
 };
 
@@ -41,6 +41,9 @@ function Mouse(x,y){
     this.x = x;
     this.y = y;
 }
+Mouse.prototype = Object.create(SnakeFragment.prototype);
+Mouse.prototype.constructor = Mouse;
+
 Mouse.prototype.createMouse = function(){
     var x = Math.floor(Math.random()*580);
     var y = Math.floor(Math.random()*580);
