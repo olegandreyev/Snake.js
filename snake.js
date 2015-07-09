@@ -77,7 +77,7 @@ function game(){
             }
         setTimeout(function(){
             flag = 0;
-        },60)
+        },56)
 
     },false);
 
