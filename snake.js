@@ -85,33 +85,34 @@ function game(){
                 snakeArr[i].y = snakeArr[i+1].y;
                 snakeArr[i].createFragment(ctx);
             }
+         var head = snakeArr[snakeArr.length - 1];
 
             if(snake.direction == 'right'){
-                if(snakeArr[snakeArr.length - 1].x > canvas.width-30){
-                    snakeArr[snakeArr.length - 1].x = 0;
+                if(head.x > canvas.width-30){
+                    head.x = 0;
                 }else{
-                    snakeArr[snakeArr.length - 1].x+=20;
+                    head.x+=20;
                 }
             }else if(snake.direction == 'down'){
-                if(snakeArr[snakeArr.length - 1].y > canvas.height-30){
-                    snakeArr[snakeArr.length - 1].y = 0;
+                if(head.y > canvas.height-30){
+                    head.y = 0;
                 }else{
-                    snakeArr[snakeArr.length - 1].y+=20;
+                    head.y+=20;
                 }
             }else  if(snake.direction == 'left') {
-                if (snakeArr[snakeArr.length - 1].x < 10) {
-                    snakeArr[snakeArr.length - 1].x = canvas.width - 20;
+                if (head.x < 10) {
+                    head.x = canvas.width - 20;
                 } else {
-                    snakeArr[snakeArr.length - 1].x -= 20;
+                    head.x -= 20;
                 }
             }else if(snake.direction == 'up') {
-                if (snakeArr[snakeArr.length - 1].y < 10) {
-                    snakeArr[snakeArr.length - 1].y = canvas.height - 20;
+                if (head.y < 10) {
+                    head.y = canvas.height - 20;
                 } else {
-                    snakeArr[snakeArr.length - 1].y -= 20;
+                    head.y -= 20;
                 }
             }
-            snakeArr[snakeArr.length-1].createFragment(ctx);
+            head.createFragment(ctx);
             if(snake.isGameOver()){
                 alert("game over");
                 clearInterval(timer);
