@@ -61,7 +61,7 @@ function game(){
         new SnakeFragment(100,40)],
          snake = new Snake(snakeArray,'right'),
          mouse = new Mouse(100,300);
-
+         var flag = 0;
      document.addEventListener('keydown',function(event){
             if(!flag) {
                 if (snake.direction !== 'right' && event.keyCode == 37) {
